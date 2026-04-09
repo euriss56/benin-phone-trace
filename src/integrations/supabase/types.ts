@@ -14,16 +14,142 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      imei_checks: {
+        Row: {
+          checked_at: string
+          id: string
+          imei: string
+          result: string
+          risk_score: number
+          user_id: string | null
+        }
+        Insert: {
+          checked_at?: string
+          id?: string
+          imei: string
+          result: string
+          risk_score: number
+          user_id?: string | null
+        }
+        Update: {
+          checked_at?: string
+          id?: string
+          imei?: string
+          result?: string
+          risk_score?: number
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          id: string
+          name: string
+          phone: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          name?: string
+          phone?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          name?: string
+          phone?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      stolen_phones: {
+        Row: {
+          brand: string
+          case_number: string
+          city: string
+          color: string | null
+          created_at: string
+          description: string | null
+          id: string
+          imei: string
+          model: string
+          photo_url: string | null
+          status: string
+          theft_date: string
+          user_id: string
+        }
+        Insert: {
+          brand: string
+          case_number: string
+          city: string
+          color?: string | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          imei: string
+          model: string
+          photo_url?: string | null
+          status?: string
+          theft_date: string
+          user_id: string
+        }
+        Update: {
+          brand?: string
+          case_number?: string
+          city?: string
+          color?: string | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          imei?: string
+          model?: string
+          photo_url?: string | null
+          status?: string
+          theft_date?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      generate_case_number: { Args: never; Returns: string }
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "user" | "admin"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +276,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["user", "admin"],
+    },
   },
 } as const
