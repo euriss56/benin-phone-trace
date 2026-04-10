@@ -51,6 +51,8 @@ const App = () => (
             <Route path="/history" element={<ProtectedRoute><VerificationHistory /></ProtectedRoute>} />
             <Route path="/admin" element={<AdminRoute><AdminDashboard /></AdminRoute>} />
             <Route path="/admin/users" element={<AdminRoute><AdminUsers /></AdminRoute>} />
+            <Route path="/admin/police" element={<AdminRoute><PoliceReports /></AdminRoute>} />
+            <Route path="/police-reports" element={<ProtectedRoute><PoliceReports /></ProtectedRoute>} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </AuthProvider>
