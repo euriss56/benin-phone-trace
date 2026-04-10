@@ -13,6 +13,7 @@ import VerifyIMEI from "./pages/VerifyIMEI";
 import VerificationHistory from "./pages/VerificationHistory";
 import AdminDashboard from "./pages/AdminDashboard";
 import AdminUsers from "./pages/AdminUsers";
+import PoliceReports from "./pages/PoliceReports";
 import NotFound from "./pages/NotFound";
 import { ReactNode } from "react";
 
@@ -50,6 +51,8 @@ const App = () => (
             <Route path="/history" element={<ProtectedRoute><VerificationHistory /></ProtectedRoute>} />
             <Route path="/admin" element={<AdminRoute><AdminDashboard /></AdminRoute>} />
             <Route path="/admin/users" element={<AdminRoute><AdminUsers /></AdminRoute>} />
+            <Route path="/admin/police" element={<AdminRoute><PoliceReports /></AdminRoute>} />
+            <Route path="/police-reports" element={<ProtectedRoute><PoliceReports /></ProtectedRoute>} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </AuthProvider>

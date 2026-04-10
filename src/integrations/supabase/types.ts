@@ -41,6 +41,50 @@ export type Database = {
         }
         Relationships: []
       }
+      police_reports: {
+        Row: {
+          created_at: string
+          id: string
+          notes: string | null
+          notified_at: string | null
+          phone_id: string
+          police_reference: string | null
+          report_status: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          notes?: string | null
+          notified_at?: string | null
+          phone_id: string
+          police_reference?: string | null
+          report_status?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          notes?: string | null
+          notified_at?: string | null
+          phone_id?: string
+          police_reference?: string | null
+          report_status?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "police_reports_phone_id_fkey"
+            columns: ["phone_id"]
+            isOneToOne: false
+            referencedRelation: "stolen_phones"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
           created_at: string
@@ -80,6 +124,7 @@ export type Database = {
           imei: string
           model: string
           photo_url: string | null
+          photo_urls: string[] | null
           status: string
           theft_date: string
           user_id: string
@@ -95,6 +140,7 @@ export type Database = {
           imei: string
           model: string
           photo_url?: string | null
+          photo_urls?: string[] | null
           status?: string
           theft_date: string
           user_id: string
@@ -110,6 +156,7 @@ export type Database = {
           imei?: string
           model?: string
           photo_url?: string | null
+          photo_urls?: string[] | null
           status?: string
           theft_date?: string
           user_id?: string

@@ -3,7 +3,6 @@ import { Shield, AlertTriangle, XCircle, Search } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent } from '@/components/ui/card';
-import { Progress } from '@/components/ui/progress';
 import DashboardLayout from '@/components/DashboardLayout';
 import { useAuth } from '@/hooks/useAuth';
 import { supabase } from '@/integrations/supabase/client';
@@ -32,18 +31,15 @@ export default function VerifyIMEI() {
     setLoading(true);
     setResult(null);
 
-    // Check stolen phones DB
     const { data: phones } = await supabase.from('stolen_phones').select('*').eq('imei', imei);
     const { data: checks } = await supabase.from('imei_checks').select('id').eq('imei', imei);
 
     const reportCount = phones?.length || 0;
     const checkCount = checks?.length || 0;
 
-    // Calculate risk score
     let score = 0;
     if (reportCount > 0) {
       score += Math.min(reportCount * 30, 60);
-      // Recency bonus
       const latest = phones?.[0];
       if (latest) {
         const daysSince = Math.max(0, (Date.now() - new Date(latest.created_at).getTime()) / 86400000);
@@ -67,7 +63,6 @@ export default function VerifyIMEI() {
       phone: phones && phones.length > 0 ? { brand: phones[0].brand, model: phones[0].model, created_at: phones[0].created_at, city: phones[0].city } : undefined,
     };
 
-    // Save check to history
     if (user) {
       await supabase.from('imei_checks').insert({
         user_id: user.id,
@@ -75,6 +70,13 @@ export default function VerifyIMEI() {
         result: status,
         risk_score: score,
       });
+    }
+
+    // Notify owner if IMEI is in stolen database
+    if (reportCount > 0) {
+      supabase.functions.invoke('notify-owner', {
+        body: { imei, verifier_info: `Vérification depuis l'application` },
+      }).catch(() => {}); // fire-and-forget
     }
 
     setResult(verifyResult);
@@ -138,6 +140,9 @@ export default function VerifyIMEI() {
 
               <div className="space-y-2 text-sm">
                 <p className="text-muted-foreground">Signalé <strong className="text-foreground">{result.reportCount} fois</strong></p>
+                {result.reportCount > 0 && (
+                  <p className="text-xs text-accent">📧 Le propriétaire a été automatiquement notifié de cette vérification.</p>
+                )}
                 {result.phone && (
                   <div className="bg-muted/50 rounded-lg p-3 space-y-1">
                     <p><strong>Marque:</strong> {result.phone.brand}</p>
