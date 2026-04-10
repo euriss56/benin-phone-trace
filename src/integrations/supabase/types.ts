@@ -41,6 +41,39 @@ export type Database = {
         }
         Relationships: []
       }
+      police_contacts: {
+        Row: {
+          address: string | null
+          city: string
+          commissioner_name: string
+          created_at: string
+          email: string | null
+          id: string
+          phone: string
+          updated_at: string
+        }
+        Insert: {
+          address?: string | null
+          city: string
+          commissioner_name: string
+          created_at?: string
+          email?: string | null
+          id?: string
+          phone: string
+          updated_at?: string
+        }
+        Update: {
+          address?: string | null
+          city?: string
+          commissioner_name?: string
+          created_at?: string
+          email?: string | null
+          id?: string
+          phone?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       police_reports: {
         Row: {
           created_at: string

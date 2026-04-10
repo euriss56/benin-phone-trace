@@ -1,4 +1,4 @@
-import { Home, Shield, AlertTriangle, History, Users, BarChart3, LogOut, Menu, X, Smartphone, FileWarning } from 'lucide-react';
+import { Home, Shield, AlertTriangle, History, Users, BarChart3, LogOut, Menu, X, Smartphone, FileWarning, Contact } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
 import { useState } from 'react';
@@ -15,6 +15,7 @@ const adminLinks = [
   { to: '/admin', icon: BarChart3, label: 'Administration' },
   { to: '/admin/users', icon: Users, label: 'Utilisateurs' },
   { to: '/admin/police', icon: FileWarning, label: 'Rapports police (admin)' },
+  { to: '/admin/contacts', icon: Contact, label: 'Contacts commissaires' },
 ];
 
 export default function AppSidebar() {
