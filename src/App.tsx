@@ -13,6 +13,7 @@ import VerifyIMEI from "./pages/VerifyIMEI";
 import VerificationHistory from "./pages/VerificationHistory";
 import AdminDashboard from "./pages/AdminDashboard";
 import AdminUsers from "./pages/AdminUsers";
+import PoliceReports from "./pages/PoliceReports";
 import NotFound from "./pages/NotFound";
 import { ReactNode } from "react";
 
