@@ -22,6 +22,7 @@ export default function DeclarePhone() {
   const [photoPreviews, setPhotoPreviews] = useState<string[]>([]);
   const [form, setForm] = useState({
     imei: '', brand: '', model: '', color: '', theft_date: '', city: '', description: '',
+    reporter_lastname: '', reporter_firstname: '', reporter_phone: '', reporter_email: '',
   });
 
   const handlePhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -116,6 +117,31 @@ export default function DeclarePhone() {
         <Card>
           <CardContent className="pt-6">
             <form onSubmit={handleSubmit} className="space-y-4">
+              {/* Informations du signaleur */}
+              <h3 className="text-lg font-semibold text-foreground">Informations du signaleur</h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="text-sm font-medium text-foreground">Nom *</label>
+                  <Input value={form.reporter_lastname} onChange={e => update('reporter_lastname', e.target.value)} placeholder="Doe" required />
+                </div>
+                <div>
+                  <label className="text-sm font-medium text-foreground">Prénom *</label>
+                  <Input value={form.reporter_firstname} onChange={e => update('reporter_firstname', e.target.value)} placeholder="Jean" required />
+                </div>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="text-sm font-medium text-foreground">Numéro de téléphone *</label>
+                  <Input value={form.reporter_phone} onChange={e => update('reporter_phone', e.target.value)} placeholder="+229 XX XX XX XX" required />
+                </div>
+                <div>
+                  <label className="text-sm font-medium text-foreground">Email *</label>
+                  <Input type="email" value={form.reporter_email} onChange={e => update('reporter_email', e.target.value)} placeholder="jean.doe@email.com" required />
+                </div>
+              </div>
+
+              <hr className="my-2 border-border" />
+              <h3 className="text-lg font-semibold text-foreground">Informations du téléphone</h3>
               <div>
                 <label className="text-sm font-medium text-foreground">IMEI (15 chiffres) *</label>
                 <Input value={form.imei} onChange={e => update('imei', e.target.value.replace(/\D/g, '').slice(0, 15))} placeholder="123456789012345" required maxLength={15} className="font-mono" />
