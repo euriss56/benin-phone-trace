@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Shield, AlertTriangle, History, Smartphone } from 'lucide-react';
+import { Shield, AlertTriangle, History, Smartphone, ArrowUpRight, TrendingUp, Clock, Activity } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import DashboardLayout from '@/components/DashboardLayout';
@@ -28,83 +28,106 @@ export default function Dashboard() {
 
   const resultColor = (r: string) => r === 'safe' ? 'text-success' : r === 'suspect' ? 'text-warning' : 'text-destructive';
   const resultLabel = (r: string) => r === 'safe' ? 'Sécurisé' : r === 'suspect' ? 'Suspect' : 'Volé';
+  const resultBg = (r: string) => r === 'safe' ? 'bg-success/10' : r === 'suspect' ? 'bg-warning/10' : 'bg-destructive/10';
 
   return (
     <DashboardLayout>
       <div className="animate-fade-in space-y-6">
-        <div>
-          <h2 className="text-2xl font-bold text-foreground">Bienvenue, {profile?.name || 'Utilisateur'} 👋</h2>
-          <p className="text-muted-foreground">Tableau de bord TracePhone Bénin</p>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <Card>
-            <CardContent className="p-6 flex items-center gap-4">
+        {/* Stats cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="stat-card" style={{ '--tw-border-opacity': 1 } as any}>
+            <div className="absolute top-0 left-0 right-0 h-1 bg-destructive rounded-t-xl" />
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm text-muted-foreground font-medium">Déclarations</p>
+                <p className="text-3xl font-bold text-foreground mt-1">{stats.declarations}</p>
+              </div>
               <div className="w-12 h-12 rounded-xl bg-destructive/10 flex items-center justify-center">
-                <AlertTriangle className="text-destructive" />
+                <AlertTriangle className="text-destructive" size={22} />
               </div>
+            </div>
+            <div className="flex items-center gap-1 mt-3 text-xs text-muted-foreground">
+              <TrendingUp size={12} className="text-success" />
+              <span>Téléphones déclarés volés</span>
+            </div>
+          </div>
+
+          <div className="stat-card">
+            <div className="absolute top-0 left-0 right-0 h-1 bg-success rounded-t-xl" />
+            <div className="flex items-center justify-between">
               <div>
-                <p className="text-2xl font-bold text-foreground">{stats.declarations}</p>
-                <p className="text-sm text-muted-foreground">Déclarations</p>
+                <p className="text-sm text-muted-foreground font-medium">Vérifications</p>
+                <p className="text-3xl font-bold text-foreground mt-1">{stats.verifications}</p>
               </div>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardContent className="p-6 flex items-center gap-4">
               <div className="w-12 h-12 rounded-xl bg-success/10 flex items-center justify-center">
-                <Shield className="text-success" />
+                <Shield className="text-success" size={22} />
               </div>
-              <div>
-                <p className="text-2xl font-bold text-foreground">{stats.verifications}</p>
-                <p className="text-sm text-muted-foreground">Vérifications</p>
+            </div>
+            <div className="flex items-center gap-1 mt-3 text-xs text-muted-foreground">
+              <Activity size={12} className="text-primary" />
+              <span>IMEI vérifiés</span>
+            </div>
+          </div>
+
+          <Link to="/declare" className="block">
+            <div className="stat-card cursor-pointer group h-full">
+              <div className="absolute top-0 left-0 right-0 h-1 bg-accent rounded-t-xl" />
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm text-muted-foreground font-medium">Déclarer un vol</p>
+                  <p className="text-sm text-foreground mt-2">Signaler un téléphone volé</p>
+                </div>
+                <div className="w-10 h-10 rounded-xl bg-accent/10 flex items-center justify-center group-hover:bg-accent group-hover:text-accent-foreground transition-colors">
+                  <ArrowUpRight className="text-accent group-hover:text-accent-foreground" size={18} />
+                </div>
               </div>
-            </CardContent>
-          </Card>
+            </div>
+          </Link>
+
+          <Link to="/verify" className="block">
+            <div className="stat-card cursor-pointer group h-full">
+              <div className="absolute top-0 left-0 right-0 h-1 bg-primary rounded-t-xl" />
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm text-muted-foreground font-medium">Vérifier un IMEI</p>
+                  <p className="text-sm text-foreground mt-2">Vérifiez avant d'acheter</p>
+                </div>
+                <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
+                  <ArrowUpRight className="text-primary group-hover:text-primary-foreground" size={18} />
+                </div>
+              </div>
+            </div>
+          </Link>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <Link to="/declare">
-            <Card className="hover:shadow-md transition-shadow cursor-pointer border-destructive/20">
-              <CardContent className="p-6 flex items-center gap-4">
-                <AlertTriangle className="text-destructive" />
-                <div>
-                  <p className="font-semibold text-foreground">Déclarer un vol</p>
-                  <p className="text-sm text-muted-foreground">Signaler un téléphone volé</p>
-                </div>
-              </CardContent>
-            </Card>
-          </Link>
-          <Link to="/verify">
-            <Card className="hover:shadow-md transition-shadow cursor-pointer border-success/20">
-              <CardContent className="p-6 flex items-center gap-4">
-                <Shield className="text-success" />
-                <div>
-                  <p className="font-semibold text-foreground">Vérifier un IMEI</p>
-                  <p className="text-sm text-muted-foreground">Vérifiez avant d'acheter</p>
-                </div>
-              </CardContent>
-            </Card>
-          </Link>
-        </div>
-
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <History size={18} /> Activité récente
+        {/* Recent activity */}
+        <Card className="border-border/50">
+          <CardHeader className="pb-3">
+            <CardTitle className="flex items-center gap-2 text-base font-semibold">
+              <Clock size={16} className="text-muted-foreground" /> Activité récente
             </CardTitle>
           </CardHeader>
           <CardContent>
             {recentChecks.length === 0 ? (
-              <p className="text-muted-foreground text-sm">Aucune activité récente</p>
+              <div className="text-center py-10">
+                <div className="w-14 h-14 rounded-2xl bg-muted flex items-center justify-center mx-auto mb-3">
+                  <History size={22} className="text-muted-foreground" />
+                </div>
+                <p className="text-muted-foreground text-sm">Aucune activité récente</p>
+                <p className="text-xs text-muted-foreground mt-1">Vos vérifications apparaîtront ici</p>
+              </div>
             ) : (
-              <div className="space-y-3">
+              <div className="space-y-2">
                 {recentChecks.map(check => (
-                  <div key={check.id} className="flex items-center justify-between py-2 border-b border-border last:border-0">
-                    <div>
-                      <p className="text-sm font-mono text-foreground">{check.imei}</p>
-                      <p className="text-xs text-muted-foreground">{new Date(check.checked_at).toLocaleDateString('fr-FR')}</p>
+                  <div key={check.id} className="flex items-center justify-between py-3 px-4 rounded-lg hover:bg-muted/50 transition-colors">
+                    <div className="flex items-center gap-3">
+                      <div className={`w-2 h-2 rounded-full ${check.result === 'safe' ? 'bg-success' : check.result === 'suspect' ? 'bg-warning' : 'bg-destructive'}`} />
+                      <div>
+                        <p className="text-sm font-mono font-medium text-foreground">{check.imei}</p>
+                        <p className="text-xs text-muted-foreground">{new Date(check.checked_at).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' })}</p>
+                      </div>
                     </div>
-                    <span className={`text-sm font-semibold ${resultColor(check.result)}`}>
+                    <span className={`text-xs font-semibold px-2.5 py-1 rounded-full ${resultBg(check.result)} ${resultColor(check.result)}`}>
                       {resultLabel(check.result)}
                     </span>
                   </div>
