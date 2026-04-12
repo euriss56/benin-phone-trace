@@ -74,6 +74,7 @@ const App = () => (
               <Route path="/police-reports" element={<ProtectedRoute><PoliceReports /></ProtectedRoute>} />
               <Route path="*" element={<NotFound />} />
             </Routes>
+            <ChatBot />
           </AuthProvider>
         </BrowserRouter>
       </TooltipProvider>
