@@ -17,6 +17,7 @@ import AdminUsers from "./pages/AdminUsers";
 import PoliceReports from "./pages/PoliceReports";
 import AdminPoliceContacts from "./pages/AdminPoliceContacts";
 import NotFound from "./pages/NotFound";
+import ChatBot from "./components/ChatBot";
 import { ReactNode } from "react";
 
 const queryClient = new QueryClient();
@@ -73,6 +74,7 @@ const App = () => (
               <Route path="/police-reports" element={<ProtectedRoute><PoliceReports /></ProtectedRoute>} />
               <Route path="*" element={<NotFound />} />
             </Routes>
+            <ChatBot />
           </AuthProvider>
         </BrowserRouter>
       </TooltipProvider>
