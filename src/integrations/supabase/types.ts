@@ -41,6 +41,45 @@ export type Database = {
         }
         Relationships: []
       }
+      ml_training_logs: {
+        Row: {
+          accuracy: number | null
+          created_at: string
+          duration_seconds: number | null
+          epochs: number
+          id: string
+          loss: number | null
+          model_name: string
+          status: string
+          training_samples: number
+          user_id: string
+        }
+        Insert: {
+          accuracy?: number | null
+          created_at?: string
+          duration_seconds?: number | null
+          epochs?: number
+          id?: string
+          loss?: number | null
+          model_name?: string
+          status?: string
+          training_samples?: number
+          user_id: string
+        }
+        Update: {
+          accuracy?: number | null
+          created_at?: string
+          duration_seconds?: number | null
+          epochs?: number
+          id?: string
+          loss?: number | null
+          model_name?: string
+          status?: string
+          training_samples?: number
+          user_id?: string
+        }
+        Relationships: []
+      }
       police_contacts: {
         Row: {
           address: string | null

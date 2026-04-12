@@ -16,6 +16,7 @@ import AdminDashboard from "./pages/AdminDashboard";
 import AdminUsers from "./pages/AdminUsers";
 import PoliceReports from "./pages/PoliceReports";
 import AdminPoliceContacts from "./pages/AdminPoliceContacts";
+import AdminMLTraining from "./pages/AdminMLTraining";
 import NotFound from "./pages/NotFound";
 import ChatBot from "./components/ChatBot";
 import { ReactNode } from "react";
@@ -71,6 +72,7 @@ const App = () => (
               <Route path="/admin/users" element={<AdminRoute><AdminUsers /></AdminRoute>} />
               <Route path="/admin/police" element={<AdminRoute><PoliceReports /></AdminRoute>} />
               <Route path="/admin/contacts" element={<AdminRoute><AdminPoliceContacts /></AdminRoute>} />
+              <Route path="/admin/ml" element={<AdminRoute><AdminMLTraining /></AdminRoute>} />
               <Route path="/police-reports" element={<ProtectedRoute><PoliceReports /></ProtectedRoute>} />
               <Route path="*" element={<NotFound />} />
             </Routes>
