@@ -9,6 +9,8 @@ import Index from "./pages/Index";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
+import DashboardTechnicien from "./pages/DashboardTechnicien";
+import DashboardEnqueteur from "./pages/DashboardEnqueteur";
 import DeclarePhone from "./pages/DeclarePhone";
 import VerifyIMEI from "./pages/VerifyIMEI";
 import VerificationHistory from "./pages/VerificationHistory";
@@ -65,6 +67,8 @@ const App = () => (
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
               <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+              <Route path="/dashboard/technicien" element={<ProtectedRoute><DashboardTechnicien /></ProtectedRoute>} />
+              <Route path="/dashboard/enqueteur" element={<ProtectedRoute><DashboardEnqueteur /></ProtectedRoute>} />
               <Route path="/declare" element={<ProtectedRoute><DeclarePhone /></ProtectedRoute>} />
               <Route path="/verify" element={<ProtectedRoute><VerifyIMEI /></ProtectedRoute>} />
               <Route path="/history" element={<ProtectedRoute><VerificationHistory /></ProtectedRoute>} />
