@@ -3,8 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Smartphone, Eye, EyeOff, ArrowRight } from 'lucide-react';
+import { Shield, Eye, EyeOff, ArrowRight } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
 export default function Login() {
@@ -18,56 +17,72 @@ export default function Login() {
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    const { error } = await supabase.auth.signInWithPassword({ email, password });
+    const { error, data } = await supabase.auth.signInWithPassword({ email, password });
     setLoading(false);
     if (error) {
-      toast({ title: 'Erreur de connexion', description: error.message, variant: 'destructive' });
+      const msg = error.message.includes('Invalid') ? 'Email ou mot de passe incorrect' : error.message;
+      toast({ title: 'Erreur de connexion', description: msg, variant: 'destructive' });
     } else {
-      navigate('/dashboard');
+      // Fetch role to redirect to correct dashboard
+      const { data: roleData } = await supabase
+        .from('user_roles')
+        .select('role')
+        .eq('user_id', data.user.id)
+        .single();
+      
+      const role = roleData?.role || 'dealer';
+      const dashboardRoutes: Record<string, string> = {
+        admin: '/admin',
+        enqueteur: '/dashboard/enqueteur',
+        technicien: '/dashboard/technicien',
+        dealer: '/dashboard',
+        user: '/dashboard',
+      };
+      navigate(dashboardRoutes[role] || '/dashboard');
     }
   };
 
   return (
     <div className="min-h-screen flex bg-background">
-      {/* Left panel - decorative */}
+      {/* Left panel */}
       <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden bg-gradient-to-br from-primary via-primary/90 to-primary/70">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_50%,rgba(255,255,255,0.1),transparent)]" />
         <div className="relative z-10 flex flex-col justify-center px-16 text-primary-foreground">
           <div className="flex items-center gap-3 mb-10">
             <div className="w-12 h-12 rounded-xl gradient-accent flex items-center justify-center shadow-lg">
-              <Smartphone size={24} />
+              <Shield size={24} />
             </div>
             <div>
-              <h1 className="text-2xl font-bold">TracePhone</h1>
-              <p className="text-xs uppercase tracking-widest opacity-70">Bénin</p>
+              <h1 className="text-2xl font-bold">TraceIMEI-BJ</h1>
+              <p className="text-xs uppercase tracking-widest opacity-70">GETECH — Cotonou</p>
             </div>
           </div>
           <h2 className="text-4xl font-bold leading-tight mb-4">
-            Protégez vos<br />appareils mobiles
+            Authentifier.<br />Protéger.<br />Tracer.
           </h2>
           <p className="text-primary-foreground/70 text-lg max-w-md">
-            Vérifiez, déclarez et tracez les téléphones volés au Bénin en toute simplicité.
+            Plateforme hybride de traçabilité des téléphones volés au Bénin.
           </p>
           <div className="benin-stripe mt-10 rounded-full max-w-32" />
         </div>
       </div>
 
-      {/* Right panel - form */}
+      {/* Right panel */}
       <div className="flex-1 flex items-center justify-center p-6">
         <div className="w-full max-w-md">
           <div className="lg:hidden flex items-center justify-center gap-3 mb-8">
-            <div className="w-11 h-11 rounded-xl gradient-accent flex items-center justify-center shadow-md">
-              <Smartphone className="text-accent-foreground" size={22} />
+            <div className="w-11 h-11 rounded-xl gradient-primary flex items-center justify-center shadow-md">
+              <Shield className="text-primary-foreground" size={22} />
             </div>
             <div>
-              <h1 className="text-xl font-bold text-foreground">TracePhone</h1>
-              <p className="text-[10px] uppercase tracking-widest text-muted-foreground">Bénin</p>
+              <h1 className="text-xl font-bold text-foreground">TraceIMEI-BJ</h1>
+              <p className="text-[10px] uppercase tracking-widest text-muted-foreground">GETECH — Cotonou</p>
             </div>
           </div>
 
           <div className="mb-8">
             <h2 className="text-2xl font-bold text-foreground">Connexion</h2>
-            <p className="text-muted-foreground text-sm mt-1">Accédez à votre tableau de bord</p>
+            <p className="text-muted-foreground text-sm mt-1">Accédez à votre espace TraceIMEI-BJ</p>
           </div>
 
           <form onSubmit={handleLogin} className="space-y-5">
@@ -91,10 +106,10 @@ export default function Login() {
                 </button>
               </div>
             </div>
-            <Button type="submit" className="w-full h-11 bg-accent text-accent-foreground hover:bg-accent/90 shadow-sm" disabled={loading}>
+            <Button type="submit" className="w-full h-11 bg-primary text-primary-foreground hover:bg-primary/90 shadow-sm" disabled={loading}>
               {loading ? (
                 <div className="flex items-center gap-2">
-                  <div className="w-4 h-4 border-2 border-accent-foreground/30 border-t-accent-foreground rounded-full animate-spin" />
+                  <div className="w-4 h-4 border-2 border-primary-foreground/30 border-t-primary-foreground rounded-full animate-spin" />
                   Connexion...
                 </div>
               ) : (
@@ -104,7 +119,7 @@ export default function Login() {
           </form>
           <p className="text-center text-sm text-muted-foreground mt-6">
             Pas de compte ?{' '}
-            <Link to="/register" className="text-accent font-semibold hover:underline">S'inscrire</Link>
+            <Link to="/register" className="text-primary font-semibold hover:underline">S'inscrire</Link>
           </p>
         </div>
       </div>

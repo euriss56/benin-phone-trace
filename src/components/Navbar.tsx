@@ -1,7 +1,15 @@
-import { Moon, Sun, Bell, Search } from 'lucide-react';
+import { Moon, Sun, Bell } from 'lucide-react';
 import { useTheme } from '@/hooks/useTheme';
 import { useAuth } from '@/hooks/useAuth';
 import { Button } from '@/components/ui/button';
+
+const ROLE_LABELS: Record<string, string> = {
+  dealer: 'Dealer',
+  technicien: 'Technicien',
+  enqueteur: 'Enquêteur',
+  admin: 'Administrateur',
+  user: 'Utilisateur',
+};
 
 export default function Navbar() {
   const { theme, toggleTheme } = useTheme();
@@ -32,7 +40,7 @@ export default function Navbar() {
             </div>
             <div className="hidden md:block">
               <p className="text-xs font-medium text-foreground leading-none">{profile?.name || 'Utilisateur'}</p>
-              <p className="text-[10px] text-muted-foreground capitalize mt-0.5">{role || 'user'}</p>
+              <p className="text-[10px] text-muted-foreground mt-0.5">{ROLE_LABELS[role || 'user']}</p>
             </div>
           </div>
         </div>
