@@ -49,7 +49,15 @@ export default function VerifyIMEI() {
   const handleVerify = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!/^\d{15}$/.test(imei)) {
-      toast({ title: 'Erreur', description: "L'IMEI doit contenir 15 chiffres.", variant: 'destructive' });
+      toast({ title: 'IMEI invalide', description: "L'IMEI doit contenir exactement 15 chiffres.", variant: 'destructive' });
+      return;
+    }
+    if (!isValidLuhn(imei)) {
+      toast({
+        title: 'IMEI invalide',
+        description: "Ce numéro n'est pas un vrai IMEI (échec de l'algorithme de Luhn). Vérifiez votre saisie ou tapez *#06# sur le téléphone.",
+        variant: 'destructive',
+      });
       return;
     }
 
@@ -193,7 +201,7 @@ export default function VerifyIMEI() {
                 {luhnHint === 'bad' && <p className="text-xs text-destructive mt-1.5 flex items-center gap-1"><XCircle size={12} />Format invalide (Luhn) — vérifiez la saisie</p>}
                 <p className="text-xs text-muted-foreground mt-1.5">💡 Tapez <code className="bg-muted px-1 py-0.5 rounded text-foreground font-mono">*#06#</code> sur le téléphone pour obtenir l'IMEI</p>
               </div>
-              <Button type="submit" className="w-full h-11 bg-accent text-accent-foreground hover:bg-accent/90" disabled={loading || imei.length !== 15}>
+              <Button type="submit" className="w-full h-11 bg-accent text-accent-foreground hover:bg-accent/90" disabled={loading || imei.length !== 15 || luhnHint !== 'ok'}>
                 {loading ? (
                   <div className="flex items-center gap-2">
                     <div className="w-4 h-4 border-2 border-accent-foreground/30 border-t-accent-foreground rounded-full animate-spin" />
