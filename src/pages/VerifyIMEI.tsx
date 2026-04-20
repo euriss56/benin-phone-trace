@@ -49,7 +49,15 @@ export default function VerifyIMEI() {
   const handleVerify = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!/^\d{15}$/.test(imei)) {
-      toast({ title: 'Erreur', description: "L'IMEI doit contenir 15 chiffres.", variant: 'destructive' });
+      toast({ title: 'IMEI invalide', description: "L'IMEI doit contenir exactement 15 chiffres.", variant: 'destructive' });
+      return;
+    }
+    if (!isValidLuhn(imei)) {
+      toast({
+        title: 'IMEI invalide',
+        description: "Ce numéro n'est pas un vrai IMEI (échec de l'algorithme de Luhn). Vérifiez votre saisie ou tapez *#06# sur le téléphone.",
+        variant: 'destructive',
+      });
       return;
     }
 
