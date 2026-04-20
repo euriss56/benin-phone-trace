@@ -20,6 +20,8 @@ import PoliceReports from "./pages/PoliceReports";
 import AdminPoliceContacts from "./pages/AdminPoliceContacts";
 import AdminMLTraining from "./pages/AdminMLTraining";
 import NotFound from "./pages/NotFound";
+import About from "./pages/About";
+import Privacy from "./pages/Privacy";
 import ChatBot from "./components/ChatBot";
 import { ReactNode } from "react";
 
@@ -64,6 +66,8 @@ const App = () => (
           <AuthProvider>
             <Routes>
               <Route path="/" element={<Index />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/privacy" element={<Privacy />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
               <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />

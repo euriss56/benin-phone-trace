@@ -72,9 +72,9 @@ export default function Index() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-2xl mx-auto pt-8">
             {[
               { value: '10,9M', label: 'Abonnés mobiles (ARCEP 2025)' },
-              { value: '85,4%', label: 'Précision du modèle ML' },
+              { value: 'Luhn', label: 'Validation IMEI standard' },
               { value: '< 2s', label: 'Temps de réponse moyen' },
-              { value: '50+', label: 'Dealers partenaires' },
+              { value: 'Open', label: 'Modèle en apprentissage continu' },
             ].map(s => (
               <div key={s.label} className="text-center">
                 <p className="text-2xl md:text-3xl font-bold text-foreground">{s.value}</p>
@@ -94,9 +94,9 @@ export default function Index() {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
-              { icon: Smartphone, title: 'Saisissez ou scannez l\'IMEI', desc: 'Tapez *#06# sur le téléphone ou scannez le code-barres pour obtenir le numéro IMEI', step: '📱' },
-              { icon: Zap, title: 'Analyse IA anti-clonage', desc: 'Notre IA analyse 8 critères anti-clonage en temps réel avec un modèle ML entraîné', step: '🤖' },
-              { icon: CheckCircle, title: 'Résultat immédiat', desc: 'Recevez un résultat vert/orange/rouge avec un score d\'anomalie détaillé', step: '🎯' },
+              { icon: Smartphone, title: 'Saisissez ou scannez l\'IMEI', desc: 'Tapez *#06# sur le téléphone pour obtenir le numéro IMEI à 15 chiffres', step: '📱' },
+              { icon: Zap, title: 'Analyse transparente', desc: 'Validation Luhn, lookup TAC, recoupement avec les déclarations de vol — chaque règle est expliquée', step: '🔎' },
+              { icon: CheckCircle, title: 'Résultat immédiat', desc: 'Statut tricolore (vert/orange/rouge) avec score 0–1 et explications détaillées', step: '🎯' },
             ].map(({ icon: Icon, title, desc, step }) => (
               <div key={title} className="relative">
                 <Card className="text-center border-border/50 hover:shadow-lg transition-all duration-300 hover:-translate-y-1 bg-card">
@@ -168,10 +168,9 @@ export default function Index() {
               <span className="font-semibold text-sm text-foreground">TraceIMEI-BJ</span>
             </div>
             <div className="flex items-center gap-4 text-xs text-muted-foreground">
-              <span>Mentions légales</span>
-              <span>RGPD</span>
-              <span>Contact</span>
-              <span>API</span>
+              <Link to="/about" className="hover:text-foreground transition-colors">À propos</Link>
+              <Link to="/privacy" className="hover:text-foreground transition-colors">Confidentialité</Link>
+              <Link to="/verify" className="hover:text-foreground transition-colors">Vérifier un IMEI</Link>
             </div>
           </div>
           <div className="text-center space-y-1">
